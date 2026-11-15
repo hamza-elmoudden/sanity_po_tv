@@ -1,0 +1,38 @@
+import { defineType, defineField } from 'sanity'
+
+export const homePage = defineType({
+  name: 'homePage',
+  title: 'Home Page',
+  type: 'document',
+  __experimental_actions: ['update', 'publish'],
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'localeString',
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: 'shortDescription',
+      title: 'Short Description',
+      type: 'localeString',
+      validation: (R) => R.required().max(160),
+    }),
+    defineField({
+      name: 'heroSlider',
+      title: 'Hero Slider',
+      type: 'reference',
+      to: [{ type: 'imageSlider' }],
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    }),
+  ],
+  preview: {
+    prepare() {
+      return { title: 'Home Page' }
+    },
+  },
+})
