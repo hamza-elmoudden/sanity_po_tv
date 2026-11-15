@@ -1,6 +1,6 @@
-import {defineField, defineType} from 'sanity'
+import { defineType, defineField } from 'sanity'
 
-export default defineType({
+export const author = defineType({
   name: 'author',
   title: 'Author',
   type: 'document',
@@ -9,42 +9,28 @@ export default defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+      validation: (R) => R.required(),
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {
-        source: 'name',
-        maxLength: 96,
-      },
+      options: { source: 'name' },
+      validation: (R) => R.required(),
     }),
     defineField({
-      name: 'image',
-      title: 'Image',
+      name: 'avatar',
+      title: 'Avatar',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
+      options: { hotspot: true },
     }),
     defineField({
       name: 'bio',
       title: 'Bio',
-      type: 'array',
-      of: [
-        {
-          title: 'Block',
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [],
-        },
-      ],
+      type: 'localeText',
     }),
   ],
   preview: {
-    select: {
-      title: 'name',
-      media: 'image',
-    },
+    select: { title: 'name', media: 'avatar' },
   },
 })
