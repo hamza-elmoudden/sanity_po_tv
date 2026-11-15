@@ -1,65 +1,139 @@
-import {defineField, defineType} from 'sanity'
+import { defineType, defineField } from "sanity";
 
-export default defineType({
-  name: 'post',
-  title: 'Post',
-  type: 'document',
+export const post = defineType({
+  name: "post",
+  title: "Blog Post",
+  type: "document",
   fields: [
+    // ── Identity ──────────────────────────────────────
     defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
+      name: "title",
+      title: "Title",
+      type: "localeString",
+      validation: (R) => R.required(),
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title.en", maxLength: 96 },
+      validation: (R) => R.required(),
+    }),
+
+    // ── Media ─────────────────────────────────────────
+    defineField({
+      name: "coverImage",
+      title: "Cover Image",
+      type: "image",
+      options: { hotspot: true },
+      validation: (R) => R.required(),
+    }),
+
+    // ── Taxonomy ──────────────────────────────────────
+    defineField({
+      name: "categories",
+      title: "Categories",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+    }),
+
+    // ── Authorship ────────────────────────────────────
+    defineField({
+      name: "author",
+      title: "Author",
+      type: "reference",
+      to: [{ type: "author" }],
+      validation: (R) => R.required(),
+    }),
+
+    // ── Publishing ────────────────────────────────────
+    defineField({
+      name: "status",
+      title: "Status",
+      type: "string",
       options: {
-        source: 'title',
-        maxLength: 96,
+        list: [
+          { title: "Draft", value: "draft" },
+          { title: "Published", value: "published" },
+          { title: "Archived", value: "archived" },
+        ],
+        layout: "radio",
       },
+      initialValue: "draft",
+      validation: (R) => R.required(),
     }),
     defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: {type: 'author'},
+      name: "publishedAt",
+      title: "Published At",
+      type: "datetime",
+      hidden: ({ document }) => document?.status !== "published",
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      name: "featured",
+      title: "Featured Post",
+      type: "boolean",
+      initialValue: false,
+      description: "Pin this post to the top of the blog listing",
+    }),
+
+    // ── Content ───────────────────────────────────────
+    defineField({
+      name: "excerpt",
+      title: "Excerpt",
+      type: "localeText",
+      description: "Short summary shown in listing cards — max 200 chars",
+      validation: (R) => R.required().max(200),
     }),
     defineField({
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      of: [{type: 'reference', to: {type: 'category'}}],
+      name: "body",
+      title: "Body",
+      type: "localeText",
+      validation: (R) => R.required(),
     }),
+
+    // ── SEO ───────────────────────────────────────────
     defineField({
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
+      name: "seo",
+      title: "SEO",
+      type: "seo",
     }),
-    defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'blockContent',
-    }),
+  ],
+
+  orderings: [
+    {
+      title: "Published Date, Newest",
+      name: "publishedAtDesc",
+      by: [{ field: "publishedAt", direction: "desc" }],
+    },
+    {
+      title: "Published Date, Oldest",
+      name: "publishedAtAsc",
+      by: [{ field: "publishedAt", direction: "asc" }],
+    },
   ],
 
   preview: {
     select: {
-      title: 'title',
-      author: 'author.name',
-      media: 'mainImage',
+      title: "title.en",
+      author: "author.name",
+      status: "status",
+      media: "coverImage",
     },
-    prepare(selection) {
-      const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
+    prepare({ title, author, status, media }) {
+      const statusIcon =
+        status === "published" ? "🟢" : status === "archived" ? "🔴" : "🟡";
+      return {
+        title: `${statusIcon} ${title}`,
+        subtitle: author ? `by ${author}` : undefined,
+        media,
+      };
     },
   },
-})
+});

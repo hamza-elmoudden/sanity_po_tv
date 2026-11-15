@@ -1,6 +1,6 @@
-import {defineField, defineType} from 'sanity'
+import { defineType, defineField } from 'sanity'
 
-export default defineType({
+export const category = defineType({
   name: 'category',
   title: 'Category',
   type: 'document',
@@ -8,12 +8,30 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Title',
-      type: 'string',
+      type: 'localeString',
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'title.en' },
+      validation: (R) => R.required(),
     }),
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'text',
+      type: 'localeText',
+    }),
+    defineField({
+      name: 'color',
+      title: 'Color (hex)',
+      type: 'string',
+      description: 'e.g. #3B82F6 — used as badge color in the UI',
+      validation: (R) => R.regex(/^#[0-9A-Fa-f]{6}$/, { name: 'hex color' }),
     }),
   ],
+  preview: {
+    select: { title: 'title.en' },
+  },
 })
