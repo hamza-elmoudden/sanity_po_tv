@@ -25,6 +25,8 @@ import { blogPage } from "./blogPage";
 import { category } from "./category";
 import { author } from "./author";
 
+import { navBar } from "./navbar";
+
 // ── Schema types ──────────────────────────────────────
 export const schemaTypes = [
   localeString,
@@ -45,4 +47,7 @@ export const schemaTypes = [
   blogPage,
   category,
   author,
+
+  // navbar
+  navBar,
 ];
