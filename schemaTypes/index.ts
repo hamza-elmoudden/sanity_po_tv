@@ -25,7 +25,9 @@ import { blogPage } from "./blogPage";
 import { category } from "./category";
 import { author } from "./author";
 
+import { footer } from "./footer";
 import { navBar } from "./navbar";
+import { plansection } from "./plansection";
 
 // ── Schema types ──────────────────────────────────────
 export const schemaTypes = [
@@ -50,4 +52,8 @@ export const schemaTypes = [
 
   // navbar
   navBar,
+  // footer
+  footer,
+  // palne Section
+  plansection,
 ];
