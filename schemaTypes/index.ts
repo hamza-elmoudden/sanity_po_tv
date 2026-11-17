@@ -16,7 +16,6 @@ import { infoSection } from "./infoSection";
 // ── Feature documents ─────────────────────────────────
 import { plan } from "./plan";
 import { contactInfo } from "./contactInfo";
-import { authSettings } from "./authSettings";
 
 // Feature Blog ──────────────────────────────────────
 
@@ -28,6 +27,9 @@ import { author } from "./author";
 import { footer } from "./footer";
 import { navBar } from "./navbar";
 import { plansection } from "./plansection";
+
+import { submit } from "./submit";
+import { order } from "./order";
 
 // ── Schema types ──────────────────────────────────────
 export const schemaTypes = [
@@ -43,7 +45,7 @@ export const schemaTypes = [
   infoSection,
   plan,
   contactInfo,
-  authSettings,
+
   //   blog
   post,
   blogPage,
@@ -56,4 +58,9 @@ export const schemaTypes = [
   footer,
   // palne Section
   plansection,
+
+  // submit
+  submit,
+  // order
+  order,
 ];
