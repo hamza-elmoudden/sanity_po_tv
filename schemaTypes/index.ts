@@ -10,7 +10,6 @@ import { aboutPage } from "./aboutPage";
 import { faqPage, faqItem } from "./faqPage";
 
 // ── Section / content documents ───────────────────────
-import { imageSlider, sliderSlide } from "./imageSlider";
 import { infoSection } from "./infoSection";
 
 // ── Feature documents ─────────────────────────────────
@@ -40,8 +39,6 @@ export const schemaTypes = [
   aboutPage,
   faqPage,
   faqItem,
-  imageSlider,
-  sliderSlide,
   infoSection,
   plan,
   contactInfo,
