@@ -14,7 +14,7 @@ import { imageSlider, sliderSlide } from "./imageSlider";
 import { infoSection } from "./infoSection";
 
 // ── Feature documents ─────────────────────────────────
-import { product } from "./product";
+import { plan } from "./plan";
 import { contactInfo } from "./contactInfo";
 import { authSettings } from "./authSettings";
 
@@ -41,7 +41,7 @@ export const schemaTypes = [
   imageSlider,
   sliderSlide,
   infoSection,
-  product,
+  plan,
   contactInfo,
   authSettings,
   //   blog
