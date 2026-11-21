@@ -50,3 +50,21 @@ export const localeText = defineType({
     })
   ),
 })
+
+/**
+ * Max-length validator for localeString / localeText fields.
+ * `.max()` doesn't work on object types, so check each language value instead.
+ * Usage:  validation: (R) => R.custom(maxLocaleLength(60))
+ */
+export const maxLocaleLength =
+  (max: number) =>
+  (value?: Record<string, unknown>): true | string => {
+    if (!value) return true
+    for (const lang of SUPPORTED_LANGUAGES) {
+      const text = value[lang.id]
+      if (typeof text === 'string' && text.length > max) {
+        return `${lang.title} must be at most ${max} characters (currently ${text.length})`
+      }
+    }
+    return true
+  }
