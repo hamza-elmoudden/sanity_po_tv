@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { maxLocaleLength } from "./locale";
 
 export const homePage = defineType({
   name: "homePage",
@@ -16,7 +17,7 @@ export const homePage = defineType({
       name: "shortDescription",
       title: "Short Description",
       type: "localeString",
-      validation: (R) => R.required().max(160),
+      validation: (R) => R.required().custom(maxLocaleLength(300)),
     }),
     defineField({
       name: "seo",
