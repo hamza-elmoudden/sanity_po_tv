@@ -31,6 +31,23 @@ export const plan = defineType({
       validation: (R) => R.required().positive(),
     }),
     defineField({
+      name: "currency",
+      title: "Currency",
+      type: "string",
+      options: {
+        list: [
+          { title: "Polish złoty (zł)", value: "PLN" },
+          { title: "Euro (€)", value: "EUR" },
+          { title: "US dollar ($)", value: "USD" },
+          { title: "British pound (£)", value: "GBP" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      initialValue: "PLN",
+      validation: (R) => R.required(),
+    }),
+    defineField({
       name: "oldPrice",
       title: "Old Price",
       type: "number",
@@ -66,11 +83,13 @@ export const plan = defineType({
   preview: {
     select: {
       title: "title.en",
-      subtitle: "price",
+      price: "price",
+      currency: "currency",
       media: "image",
     },
-    prepare({ title, subtitle, media }) {
-      return { title, subtitle: `$${subtitle}`, media };
+    prepare({ title, price, currency, media }) {
+      const symbols: Record<string, string> = { PLN: "zł", EUR: "€", USD: "$", GBP: "£" };
+      return { title, subtitle: `${price ?? "—"} ${symbols[currency ?? "PLN"] ?? currency}`, media };
     },
   },
 });

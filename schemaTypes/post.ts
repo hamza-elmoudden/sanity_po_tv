@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { maxLocaleLength } from "./locale";
 
 export const post = defineType({
   name: "post",
@@ -89,7 +90,7 @@ export const post = defineType({
       title: "Excerpt",
       type: "localeText",
       description: "Short summary shown in listing cards — max 200 chars",
-      validation: (R) => R.required().max(200),
+      validation: (R) => R.required().custom(maxLocaleLength(200)),
     }),
     defineField({
       name: "body",
